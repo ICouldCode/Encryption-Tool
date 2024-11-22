@@ -5,6 +5,19 @@ import sys
 import time
 import threading
 
+done = False
+
+def animation():
+        for c in itertools.cycle(['|', '/', '-', '\\']):
+            if done:
+                break
+            sys.stdout.write('\rloading ' + c)
+            sys.stdout.flush()
+            time.sleep(0.1)
+        sys.stdout.write('\Complete!     ')
+
+
+
 cmd = input("Generate key? [1]yes [2]no\n")
 key = Fernet.generate_key()
 
@@ -26,6 +39,10 @@ while True:
         break
     print("Invalid path, try again\n")
 
+
+t = threading.Thread(target=animation)
+t.start()
+
 if(cmd == "1"):
     with open(filePath, 'rb') as file:
         original = file.read()
@@ -43,20 +60,5 @@ else:
     with open(filePath, 'wb') as decFile:
         decFile.write(decrypted)
 
-done = False
-
-def animation():
-        for c in itertools.cycle(['|', '/', '-', '\\']):
-            if done:
-                break
-            sys.stdout.write('\rloading ' + c)
-            sys.stdout.flush()
-            time.sleep(0.1)
-        sys.stdout.write('\Complete!     ')
-
-t = threading.Thread(target=animation)
-t.start()
-
-#long process here
-time.sleep(2)
+time.sleep(2) #<- Wait time.
 done = True

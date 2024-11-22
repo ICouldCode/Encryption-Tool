@@ -1,0 +1,2 @@
+This is a text file I'm editing from the terminal, 
+I will now be encrypting this file.
